@@ -426,13 +426,6 @@ func CommonRoutes() *web.Router {
 				})
 			})
 		}, reqPackageAccess(perm.AccessModeRead))
-		r.Group("/terraform", func() {
-			r.Group("/state/{statename}", func() {
-				r.Get("", reqPackageAccess(perm.AccessModeRead), terraform.GetState)
-				r.Post("", reqPackageAccess(perm.AccessModeWrite), terraform.UploadState)
-				r.Delete("", reqPackageAccess(perm.AccessModeWrite), terraform.DeleteState)
-			})
-		})
 		r.Group("/helm", func() {
 			r.Get("/index.yaml", helm.Index)
 			r.Get("/{filename}", helm.DownloadPackageFile)
@@ -668,6 +661,13 @@ func CommonRoutes() *web.Router {
 				})
 				r.Get("/identifiers", swift.CheckAcceptMediaType(swift.AcceptJSON), swift.LookupPackageIdentifiers)
 			}, reqPackageAccess(perm.AccessModeRead))
+		})
+		r.Group("/terraform", func() {
+			r.Group("/state/{statename}", func() {
+				r.Get("", reqPackageAccess(perm.AccessModeRead), terraform.GetState)
+				r.Post("", reqPackageAccess(perm.AccessModeWrite), terraform.UploadState)
+				r.Delete("", reqPackageAccess(perm.AccessModeWrite), terraform.DeleteState)
+			})
 		})
 		r.Group("/vagrant", func() {
 			r.Group("/authenticate", func() {
