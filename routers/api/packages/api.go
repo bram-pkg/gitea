@@ -34,6 +34,7 @@ import (
 	"code.gitea.io/gitea/routers/api/packages/rpm"
 	"code.gitea.io/gitea/routers/api/packages/rubygems"
 	"code.gitea.io/gitea/routers/api/packages/swift"
+	"code.gitea.io/gitea/routers/api/packages/terraform"
 	"code.gitea.io/gitea/routers/api/packages/vagrant"
 	"code.gitea.io/gitea/services/auth"
 	"code.gitea.io/gitea/services/context"
@@ -425,6 +426,13 @@ func CommonRoutes() *web.Router {
 				})
 			})
 		}, reqPackageAccess(perm.AccessModeRead))
+		r.Group("/terraform", func() {
+			r.Group("/state/{statename}", func() {
+				r.Get("", reqPackageAccess(perm.AccessModeRead), terraform.GetState)
+				r.Post("", reqPackageAccess(perm.AccessModeWrite), terraform.UploadState)
+				r.Delete("", reqPackageAccess(perm.AccessModeWrite), terraform.DeleteState)
+			})
+		})
 		r.Group("/helm", func() {
 			r.Get("/index.yaml", helm.Index)
 			r.Get("/{filename}", helm.DownloadPackageFile)
