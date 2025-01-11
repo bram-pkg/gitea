@@ -35,7 +35,6 @@ func GetState(ctx *context.Context) {
 			Filename: "terraform.tfstate",
 		},
 	)
-
 	if err != nil {
 		if errors.Is(err, packages_model.ErrPackageNotExist) || errors.Is(err, packages_model.ErrPackageFileNotExist) {
 			apiError(ctx, http.StatusNotFound, err)
