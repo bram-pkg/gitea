@@ -89,9 +89,10 @@ func UploadState(ctx *context.Context) {
 			PackageFileInfo: packages_service.PackageFileInfo{
 				Filename: "terraform.tfstate",
 			},
-			Creator: ctx.Doer,
-			Data:    buf,
-			IsLead:  true,
+			Creator:           ctx.Doer,
+			Data:              buf,
+			IsLead:            true,
+			OverwriteExisting: true,
 		},
 	)
 	if err != nil {

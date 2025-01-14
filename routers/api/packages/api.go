@@ -664,7 +664,7 @@ func CommonRoutes() *web.Router {
 		})
 		r.Group("/terraform", func() {
 			r.Group("/state/{statename}", func() {
-				r.Get("", reqPackageAccess(perm.AccessModeRead), terraform.GetState)
+				r.Get("", reqPackageAccess(perm.AccessModeWrite), terraform.GetState)
 				r.Post("", reqPackageAccess(perm.AccessModeWrite), terraform.UploadState)
 				r.Delete("", reqPackageAccess(perm.AccessModeWrite), terraform.DeleteState)
 			})
